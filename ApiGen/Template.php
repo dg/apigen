@@ -578,22 +578,16 @@ class Template extends Nette\Templating\FileTemplate
 	 */
 	public function getSourceUrl(ReflectionElement $element, $withLine = true)
 	{
-		if ($element instanceof ReflectionClass || $element instanceof ReflectionFunction || ($element instanceof ReflectionConstant && null === $element->getDeclaringClassName())) {
-			$elementName = $element->getName();
-
-			if ($element instanceof ReflectionClass) {
-				$file = 'class-';
-			} elseif ($element instanceof ReflectionConstant) {
-				$file = 'constant-';
-			} elseif ($element instanceof ReflectionFunction) {
-				$file = 'function-';
+		$file = $element->getFileName();
+		foreach ($this->config->source as $source) {
+			$source .= DIRECTORY_SEPARATOR;
+			if (Nette\Utils\Strings::startsWith($file, $source)) {
+				$file = substr($file, strlen($source));
+				break;
 			}
-		} else {
-			$elementName = $element->getDeclaringClassName();
-			$file = 'class-';
 		}
 
-		$file .= $this->urlize($elementName);
+		$file = $this->urlize($file);
 
 		$lines = null;
 		if ($withLine) {

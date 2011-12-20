@@ -1361,11 +1361,14 @@ class Generator extends Nette\Object
 
 				// Generate source codes
 				if ($this->config->sourceCode && $element->isTokenized()) {
-					$template->fileName = $this->getRelativePath($element->getFileName());
-					$template->source = $fshl->highlight($this->toUtf(file_get_contents($element->getFileName()), $this->charsets[$element->getFileName()]));
-					$template
-						->setFile($this->getTemplatePath('source'))
-						->save($this->config->destination . DIRECTORY_SEPARATOR . $template->getSourceUrl($element, false));
+					$file = $this->config->destination . DIRECTORY_SEPARATOR . $template->getSourceUrl($element, false);
+					if (!is_file($file) || !$this->config->wipeout) {
+						$template->fileName = $this->getRelativePath($element->getFileName());
+						$template->source = $fshl->highlight($this->toUtf(file_get_contents($element->getFileName()), $this->charsets[$element->getFileName()]));
+						$template
+							->setFile($this->getTemplatePath('source'))
+							->save($file);
+					}
 
 					$this->incrementProgressBar();
 				}
