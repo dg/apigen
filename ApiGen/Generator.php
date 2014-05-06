@@ -22,6 +22,9 @@ use InvalidArgumentException, RuntimeException;
  */
 class Generator extends Nette\Object
 {
+	const PHP_NAMESPACE = 'PHP';
+	const NONE_NAMESPACE = 'none';
+	
 	/**
 	 * Library name.
 	 *
@@ -552,8 +555,8 @@ class Generator extends Nette\Object
 		}
 
 		// Select only packages or namespaces
-		$userPackagesCount = count(array_diff(array_keys($this->packages), array('PHP', 'None')));
-		$userNamespacesCount = count(array_diff(array_keys($this->namespaces), array('PHP', 'None')));
+		$userPackagesCount = count(array_diff(array_keys($this->packages), array(self::PHP_NAMESPACE, self::NONE_NAMESPACE)));
+		$userNamespacesCount = count(array_diff(array_keys($this->namespaces), array(self::PHP_NAMESPACE, self::NONE_NAMESPACE)));
 
 		$namespacesEnabled = ('auto' === $this->config->groups && ($userNamespacesCount > 0 || 0 === $userPackagesCount)) || 'namespaces' === $this->config->groups;
 		$packagesEnabled = ('auto' === $this->config->groups && !$namespacesEnabled) || 'packages' === $this->config->groups;
@@ -581,7 +584,7 @@ class Generator extends Nette\Object
 	private function sortGroups(array $groups)
 	{
 		// Don't generate only 'None' groups
-		if (1 === count($groups) && isset($groups['None'])) {
+		if (1 === count($groups) && isset($groups[self::NONE_NAMESPACE])) {
 			return array();
 		}
 

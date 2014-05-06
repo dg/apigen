@@ -189,10 +189,10 @@ abstract class ReflectionElement extends ReflectionBase
 	public function getPseudoPackageName()
 	{
 		if ($this->isInternal()) {
-			return 'PHP';
+			return Generator::PHP_NAMESPACE;
 		}
 
-		return $this->getPackageName() ?: 'None';
+		return $this->getPackageName() ?: Generator::NONE_NAMESPACE;
 	}
 
 	/**
@@ -237,7 +237,7 @@ abstract class ReflectionElement extends ReflectionBase
 	 */
 	public function getPseudoNamespaceName()
 	{
-		return $this->isInternal() ? 'PHP' : $this->getNamespaceName() ?: 'None';
+		return $this->isInternal() ? Generator::PHP_NAMESPACE : $this->getNamespaceName() ?: Generator::NONE_NAMESPACE;
 	}
 
 	/**
