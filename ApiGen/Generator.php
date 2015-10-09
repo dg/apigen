@@ -1534,7 +1534,7 @@ class Generator extends Nette\Object
 		}
 
 		// self, $this references
-		if ('self' === $definition || '$this' === $definition) {
+		if ('self' === $definition || 'static' === $definition || '$this' === $definition) {
 			return $context instanceof ReflectionClass ? $context : null;
 		}
 
