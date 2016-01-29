@@ -307,7 +307,7 @@ the file LICENSE.md that was distributed with this source code.
 	</table>
 
 	{define property}
-	<tr data-order="{$property->name}" id="{if $property->magic}m{/if}${$property->name}">
+	<tr data-order="{$property->name}" id="{if $property->magic}m{/if}${$property->name}" n:class="$property->deprecated ? deprecated">
 		<td class="attributes"><code>
 			{if $property->protected}protected{elseif $property->private}private{else}public{/if} {if $property->static}static{/if} {if $property->readOnly}read-only{elseif $property->writeOnly}write-only{/if}
 			{$property->typeHint|typeLinks:$property|noescape}
